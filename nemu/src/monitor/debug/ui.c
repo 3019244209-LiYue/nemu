@@ -56,14 +56,31 @@ static int cmd_info(char *args) {
         else if(strcmp(arg,"r") == 0) {
                int i,j,k;
                for(i=0;i<8;i++)
-                      printf("%s %x %d\n",regsl[i],reg_l(i),reg_l(i));
+                      printf("%s 0x%x %d\n",regsl[i],reg_l(i),reg_l(i));
                for(j=0;j<8;j++)
-                      printf("%s %x %d\n",regsw[j],reg_w(j),reg_w(j));
+                      printf("%s 0x%x %d\n",regsw[j],reg_w(j),reg_w(j));
                for(k=0;k<8;k++)
-                      printf("%s %x %d\n",regsb[k],reg_b(k),reg_b(k));
+                      printf("%s 0x%x %d\n",regsb[k],reg_b(k),reg_b(k));
         }
         return 0;
 }
+
+static int cmd_x(char *args) {
+       char *arg1 = strtok(NULL, " ");
+       char *arg2 = strtok(NULL, " ");
+       int i,len;
+       swaddr_t addr;
+       sscanf(arg1,"%d", &len);
+       sscanf(arg2,"%x", &addr);
+
+       printf("0x%x:", addr);
+       for(i=0;i<len;i++) {
+               printf("%x ",swaddr_read(addr,4));
+               addr+=4;
+       }
+       printf("\n");
+       return 0;
+} 
                
 static int cmd_help(char *args);
 
@@ -77,6 +94,7 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
         { "si", "Executes N instructions in a single step", cmd_si },
         { "info", "Print the status of the registers and the information of watching points", cmd_info },
+        { "x", "Scan the memory", cmd_x },
 	/* TODO: Add more commands */
 
 };
