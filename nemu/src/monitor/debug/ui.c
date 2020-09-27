@@ -70,7 +70,7 @@ static int cmd_x(char *args) {
        char *arg2 = strtok(NULL, " ");
        int i,len;
        swaddr_t addr;
-       sscanf(arg1,"%d", &len);
+       len = atoi(arg1);
        sscanf(arg2,"%x", &addr);
 
        printf("0x%x:", addr);
