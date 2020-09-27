@@ -49,6 +49,22 @@ static int cmd_si(char *args) {
         return 0;
 }
 
+static int cmd_info(char *args) {
+        char *arg = strtok(NULL," ");
+        if(arg == NULL)
+               printf("Please input 'info r' or 'info w'");
+        else if(strcmp(arg,"r") == 0) {
+               int i,j,k;
+               for(i=0;i<8;i++)
+                      printf("%s %x %d\n",regsl[i],reg_l(i),reg_l(i));
+               for(j=0;j<8;j++)
+                      printf("%s %x %d\n",regsw[j],reg_w(j),reg_w(j));
+               for(k=0;k<8;k++)
+                      printf("%s %x %d\n",regsb[k],reg_b(k),reg_b(k));
+        }
+        return 0;
+}
+               
 static int cmd_help(char *args);
 
 static struct {
@@ -60,6 +76,7 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
         { "si", "Executes N instructions in a single step", cmd_si },
+        { "info", "Print the status of the registers and the information of watching points", cmd_info },
 	/* TODO: Add more commands */
 
 };
