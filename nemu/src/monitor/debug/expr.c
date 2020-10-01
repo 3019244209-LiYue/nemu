@@ -37,9 +37,9 @@ static struct rule {
         {"/", '/'},                                     // divide
         {"\\(", '('},                                   
         {"\\)", ')'},                                   
-        {"([1-9][0-9]{1-31})|[0-9]", NUM},              // integer
+        {"^-?[1-9][0-9]*$", NUM},                          // integer
         {"\\|\\|", OR},                                 // or
-        {"\\&\\&", AND}                                // and
+        {"\\&\\&", AND}                                 // and
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
