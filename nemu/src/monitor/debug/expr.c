@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ = 255, 
+	NOTYPE = 256, EQ = 255, NOTEQ = 254, M_OR_EQ = 253, L_OR_EQ = 252, M = 251, L = 250, RSHIFT = 249, LSHIFT = 248, NUM , OR = 247, AND = 246
 
 	/* TODO: Add more token types */
 
@@ -39,7 +39,7 @@ static struct rule {
         {"\\)", ')'},                                   
         {"([1-9][0-9]{1-31})|[0-9]", NUM},              // integer
         {"\\|\\|", OR},                                 // or
-        {"\\&\\&", AND},                                // and
+        {"\\&\\&", AND}                                // and
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
