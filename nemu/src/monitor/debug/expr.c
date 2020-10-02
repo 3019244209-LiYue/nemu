@@ -130,7 +130,7 @@ static bool make_token(char *e) {
 
 bool check_parentheses(int p, int q) {
 	int i, flag = 0;
-	if(tokens[i].type != '(' || tokens[i].type != ')')
+	if(tokens[p].type != '(' || tokens[q].type != ')')
 		return false;
 	for(i=p;i<=q;i++) {
 		if(tokens[i].type == '(')
@@ -163,6 +163,10 @@ int find_dominant_operator(int p, int q) {
 			if(i>q)
 				break;
 		}
+		else if(tokens[i].type == ')') {
+			printf("Illegal Expression\n");
+				return -1;
+		}
 		else if(tokens[i].type == NUM)
 			continue;
 		else if(tokens[i].type >= pre) {
@@ -172,15 +176,44 @@ int find_dominant_operator(int p, int q) {
 	}
 	return op;
 }
-	
+
+int eval(int p, int q) {
+	if(p > q) {
+		printf("Wrong Expression");
+		return -1;
+	}
+	else if(p == q) {
+		int val;
+		sscanf(tokens[p].str, "%x", &val);
+		return val;
+	}
+	else if(check_parentheses(p,q) == true) 
+		return eval(p + 1, q - 1);
+	else {
+		int op, val1, val2;
+		op = find_dominant_operator(p,q);
+		val1 = eval(p, op - 1);
+		val2 = eval(op + 1, q);
+
+		switch(tokens[op].type) {
+			case '+': return val1 + val2;
+			case '-': return val1 - val2;
+			case '*': return val1 * val2;
+			case '/': return val1 / val2;
+			default: assert(0);
+		}
+	}
+}
+
 uint32_t expr(char *e, bool *success) {
 	if(!make_token(e)) {
 		*success = false;
 		return 0;
 	}
-
+	
 	/* TODO: Insert codes to evaluate the expression. */
-	panic("please implement me");
-	return 0;
-}
 
+	
+	panic("please implement me");
+	return eval(0,nr_token);
+}
