@@ -145,6 +145,34 @@ bool check_parentheses(int p, int q) {
 	return true;
 }
 
+int find_dominant_operator(int p, int q) {
+	int i, op = p, flag = 0;
+	int pre = 0;
+	for(i=p;i<=q;i++) {
+		if(tokens[i].type == '(') {
+			flag++;
+			while(1) {
+				if(tokens[i].type == '(')
+					flag++;
+				else if(tokens[i].type == ')')
+					flag--;
+				i++;
+				if(flag == 0)
+					break;
+			}
+			if(i>q)
+				break;
+		}
+		else if(tokens[i].type == NUM)
+			continue;
+		else if(tokens[i].type >= pre) {
+			pre = tokens[i].type;
+			op = i;
+		}
+	}
+	return op;
+}
+	
 uint32_t expr(char *e, bool *success) {
 	if(!make_token(e)) {
 		*success = false;
