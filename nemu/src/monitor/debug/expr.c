@@ -215,5 +215,5 @@ uint32_t expr(char *e, bool *success) {
 
 	
 	panic("please implement me");
-	return eval(0,nr_token);
+	return eval(0,nr_token-1);
 }

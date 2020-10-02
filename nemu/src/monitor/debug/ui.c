@@ -66,22 +66,40 @@ static int cmd_info(char *args) {
 }
 
 static int cmd_x(char *args) {
-       char *arg1 = strtok(NULL, " ");
-       char *arg2 = strtok(NULL, " ");
-       int i,len;
-       swaddr_t addr;
-       len = atoi(arg1);
-       sscanf(arg2,"%x", &addr);
+	if(args == NULL)
+		printf("Please input 'x N EXPR'");
+	else {
+		char *arg1 = strtok(NULL, " ");
+		char *arg2 = strtok(NULL, " ");
+		int i,len;
+		swaddr_t addr;
+		len = atoi(arg1);
+		sscanf(arg2,"%x", &addr);
 
-       printf("0x%x:", addr);
-       for(i=0;i<len;i++) {
-               printf("0x%x ",swaddr_read(addr,4));
-               addr+=4;
-       }
-       printf("\n");
-       return 0;
+		printf("0x%x:", addr);
+		for(i=0;i<len;i++) {
+			printf("0x%x ",swaddr_read(addr,4));
+			 addr+=4;
+		}
+	}
+	printf("\n");
+	return 0;
 } 
                
+static int cmd_p(char *args) {
+	if(args == NULL) 
+		printf("Please input 'p EXPR'");
+	else {
+		bool success = true;
+		int result = expr(args, &success);
+		if(success) 
+			printf("result = %d\n", result);
+		else
+			printf("Illegal Expression\n");
+	}
+	return 0;
+}
+	
 static int cmd_help(char *args);
 
 static struct {
@@ -95,6 +113,7 @@ static struct {
         { "si", "Executes N instructions in a single step", cmd_si },
         { "info", "Print the status of the registers and the information of watching points", cmd_info },
         { "x", "Scan the memory", cmd_x },
+	{ "p", "Calculate the expression", cmd_p },
 	/* TODO: Add more commands */
 
 };
