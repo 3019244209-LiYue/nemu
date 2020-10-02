@@ -128,6 +128,23 @@ static bool make_token(char *e) {
 	return true; 
 }
 
+bool check_parentheses(int p, int q) {
+	int i, flag = 0;
+	if(tokens[i].type != '(' || tokens[i].type != ')')
+		return false;
+	for(i=p;i<=q;i++) {
+		if(tokens[i].type == '(')
+			flag++;
+		else if(tokens[i].type == ')')
+			flag--;
+		if(flag == 0 && i<q)
+			return false;
+	}
+	if(flag != 0)
+		return false;
+	return true;
+}
+
 uint32_t expr(char *e, bool *success) {
 	if(!make_token(e)) {
 		*success = false;
