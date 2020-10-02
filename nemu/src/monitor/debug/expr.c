@@ -7,7 +7,8 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ = 255, NOTEQ = 254, M_OR_EQ = 253, L_OR_EQ = 252, M = 251, L = 250, RSHIFT = 249, LSHIFT = 248, NUM , OR = 247, AND = 246
+	NOTYPE = 256, EQ = 255, NOTEQ = 254, M_OR_EQ = 253, L_OR_EQ = 252, M = 251, L = 250, RSHIFT = 249, LSHIFT = 248, NUM , OR = 247, AND = 246,
+	NOT = 245, REG 
 
 	/* TODO: Add more token types */
 
@@ -34,12 +35,14 @@ static struct rule {
         {"<<", LSHIFT},                                 // left shift
         {"-", '-'},                                     // minus
         {"\\*", '*'},                                   // multiply
-        {"/", '/'},                                     // divide
+        {"\\/", '/'},                                   // divide
         {"\\(", '('},                                   
         {"\\)", ')'},                                   
-        {"^-?[1-9][0-9]*$", NUM},                          // integer
+        {"^-?[1-9][0-9]*$", NUM},                       // integer
         {"\\|\\|", OR},                                 // or
-        {"\\&\\&", AND}                                 // and
+        {"\\&\\&", AND},                                // and
+	{"!", NOT},					// not
+	{"\\$[a-dA-D][hlHL]|\\$[eE]?(ax|dx|cx|bx|bp|si|di|sp)", REG}	// register
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -94,10 +97,21 @@ static bool make_token(char *e) {
 				 */
 
 				switch(rules[i].token_type) {
-                                        case NOTYPE :
-						break;
-					case EQ :
+                                        case '+':
+					case '-':
+					case '*':
+					case '/':
+					case '(':
+					case ')':
+					case NUM:
+					{
 						tokens[nr_token].type = rules[i].token_type;
+						strncpy(tokens[nr_token].str, substr_start, substr_len);
+						tokens[nr_token++].str[substr_len] = '\0';
+						break;
+					}
+					case NOTYPE :
+						break;
 					default: panic("please implement me");
 				}
 
