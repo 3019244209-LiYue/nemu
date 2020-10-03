@@ -90,8 +90,9 @@ static int cmd_p(char *args) {
 	if(args == NULL) 
 		printf("Please input 'p EXPR'");
 	else {
+		char *arg = strtok(NULL," ");
 		bool success = true;
-		int result = expr(args, &success);
+		int result = expr(arg, &success);
 		if(success) 
 			printf("result = %d\n", result);
 		else
