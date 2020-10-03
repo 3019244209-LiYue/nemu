@@ -184,7 +184,7 @@ int eval(int p, int q) {
 	}
 	else if(p == q) {
 		int val;
-		sscanf(tokens[p].str, "%x", &val);
+		sscanf(tokens[p].str, "%d", &val);
 		return val;
 	}
 	else if(check_parentheses(p,q) == true) 
