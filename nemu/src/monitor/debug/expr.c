@@ -35,7 +35,7 @@ static struct rule {
         {"<<", LSHIFT},                                 // left shift
         {"-", '-'},                                     // minus
         {"\\*", '*'},                                   // multiply
-        {"\\/", '/'},                                   // divide
+        {"/", '/'},                                     // divide
         {"\\(", '('},                                   
         {"\\)", ')'},                                   
         {"^-?[1-9][0-9]*$", NUM},                       // integer
@@ -110,7 +110,7 @@ static bool make_token(char *e) {
 						tokens[nr_token++].str[substr_len] = '\0';
 						break;
 					}
-					case NOTYPE :
+					case NOTYPE:
 						break;
 					default: panic("please implement me");
 				}
@@ -118,7 +118,6 @@ static bool make_token(char *e) {
 				break;
 			}
 		}
-		printf("%d", i);
 
 		if(i == NR_REGEX) {
 			printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
