@@ -92,6 +92,7 @@ static int cmd_p(char *args) {
 	else {
 		char *arg = strtok(NULL," ");
 		bool success = true;
+		printf("arg = %s\n", arg);
 		int result = expr(arg, &success);
 		if(success) 
 			printf("result = %d\n", result);
