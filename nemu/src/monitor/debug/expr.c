@@ -185,7 +185,7 @@ int find_dominant_operator(int p, int q) {
 int eval(int p, int q) {
 	if(p > q) {
 		printf("Wrong Expression\n");
-		return -1;
+		return 0;
 	}
 	else if(p == q) {
 		int val;
