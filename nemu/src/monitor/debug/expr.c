@@ -159,6 +159,7 @@ int find_dominant_operator(int p, int q) {
 	for(i=p;i<=q;i++) {
 		if(tokens[i].type == '(') {
 			flag++;
+			i++;
 			while(1) {
 				if(tokens[i].type == '(')
 					flag++;
