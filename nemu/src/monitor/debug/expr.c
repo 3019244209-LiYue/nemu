@@ -192,8 +192,10 @@ int eval(int p, int q) {
 		sscanf(tokens[p].str, "%d", &val);
 		return val;
 	}
-	else if(check_parentheses(p,q) == true) 
+	else if(check_parentheses(p,q) == true) {
+		printf("%d %d\n",p,q); 
 		return eval(p + 1, q - 1);
+	}
 	else {
 		int op, val1, val2;
 		op = find_dominant_operator(p,q);
