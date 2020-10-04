@@ -220,7 +220,7 @@ uint32_t expr(char *e, bool *success) {
 	/* TODO: Insert codes to evaluate the expression. */
 
 	else {
-		int val = eval(0,nr_token-1);
+		int val = eval(0,nr_token);
 		return val;
 	}	
 	panic("please implement me");
