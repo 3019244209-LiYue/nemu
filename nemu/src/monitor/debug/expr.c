@@ -174,7 +174,7 @@ int find_dominant_operator(int p, int q) {
 		}
 		else if(tokens[i].type == NUM)
 			continue;
-		else if(pre(tokens[i].type) >= pr) {
+		if(pre(tokens[i].type) >= pr) {
 			pr = pre(tokens[i].type);
 			op = i;
 		}
