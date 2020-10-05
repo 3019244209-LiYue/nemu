@@ -194,7 +194,7 @@ int eval(int p, int q) {
 		return val;
 	}
 	else if(check_parentheses(p,q) == true) {
-		printf("%d %d\n",p,q); 
+		//printf("%d %d\n",p,q); 
 		return eval(p + 1, q - 1);
 	}
 	else {
