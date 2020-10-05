@@ -188,7 +188,7 @@ int eval(int p, int q) {
 		return 0;
 	}
 	else if(p == q) {
-		int val;
+		int val=0;
 		sscanf(tokens[p].str, "%d", &val);
 		return val;
 	}
@@ -197,10 +197,10 @@ int eval(int p, int q) {
 		return eval(p + 1, q - 1);
 	}
 	else {
-		int op, val1, val2;
+		int op;
 		op = find_dominant_operator(p,q);
-		val1 = eval(p, op - 1);
-		val2 = eval(op + 1, q);
+		uint32_t val1 = eval(p, op - 1);
+		uint32_t val2 = eval(op + 1, q);
 
 		switch(tokens[op].type) {
 			case '+': return val1 + val2;
@@ -222,6 +222,7 @@ uint32_t expr(char *e, bool *success) {
 	/* TODO: Insert codes to evaluate the expression. */
 
 	else {
+		*success = true;
 		int val = eval(0,nr_token-1);
 		return val;
 	}	
