@@ -145,7 +145,9 @@ bool check_parentheses(int p, int q) {
 }
 
 int pre(int x) {
-	if(x == '*' || x == '/')
+	if(x == NOTYPE )
+		return 1;
+	else if(x == '*' || x == '/')
 		return 2;
 	else if(x == '+' || x == '-')
 		return 3;
