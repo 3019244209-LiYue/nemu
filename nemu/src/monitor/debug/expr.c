@@ -89,7 +89,7 @@ static bool make_token(char *e) {
 				int substr_len = pmatch.rm_eo;
 
 				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
-
+				position += substr_len;
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
 				 * to record the token in the array `tokens'. For certain types
 				 * of tokens, some extra actions should be performed.
@@ -113,7 +113,7 @@ static bool make_token(char *e) {
 					}
 					default: panic("please implement me");
 				}
-				position += substr_len;
+
 				break;
 			}
 		}
@@ -184,7 +184,7 @@ int find_dominant_operator(int p, int q) {
 
 int eval(int p, int q) {
 	if(p > q) {
-		printf("Wrong Expression\n");
+		printf("Something wrong\n");
 		return 0;
 	}
 	else if(p == q) {
