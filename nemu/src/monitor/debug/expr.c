@@ -7,8 +7,8 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ = 255, NOTEQ = 254, M_OR_EQ = 253, L_OR_EQ = 252, M = 251, L = 250, RSHIFT = 249, LSHIFT = 248, NUM , OR = 247, AND = 246,
-	NOT = 245, REG 
+	NOTYPE = 256, EQ = 255, NOTEQ = 254, NUM , HNUM , OR = 253, AND = 252,
+	NOT = 251, REG 
 
 	/* TODO: Add more token types */
 
@@ -27,18 +27,13 @@ static struct rule {
 	{"\\+", '+'},					// plus
 	{"==", EQ},					// equal
         {"!=", NOTEQ},                                  // not equal
-        {">=", M_OR_EQ},                                // more or equal
-        {"<=", L_OR_EQ},                                // less or equal
-        {">", M},                                       // more
-        {"<", L},                                       // less
-        {">>", RSHIFT},                                 // right shift
-        {"<<", LSHIFT},                                 // left shift
         {"-", '-'},                                     // minus
         {"\\*", '*'},                                   // multiply
         {"/", '/'},                                     // divide
         {"\\(", '('},                                   
         {"\\)", ')'},                                   
-        {"\\b[0-9]+\\b", NUM},                       // number
+        {"^[1-9][0-9]*|0$", NUM},                       // number
+	{"^0[xX][0-9a-fA-F]+$", HNUM},			// hex number
         {"\\|\\|", OR},                                 // or
         {"\\&\\&", AND},                                // and
 	{"!", NOT},					// not
@@ -97,6 +92,12 @@ static bool make_token(char *e) {
 
 				switch(rules[i].token_type) {
 					case NOTYPE:
+						break;
+					case REG:
+						tokens[nr_token].type = rules[i].token_type;
+						strncpy(tokens[nr_token].str, substr_start + 1, substr_len - 1);
+						tokens[nr_token].str[substr_len - 1] = '\0';
+						nr_token++;
 						break;
                                         case '+':
 					case '-':
@@ -158,7 +159,7 @@ int find_dominant_operator(int p, int q) {
 	int i, op = p, flag = 0;
 	int pr = 1;
 	for(i=p;i<=q;i++) {
-		if(tokens[i].type == NUM) 
+		if(tokens[i].type == NUM || tokens[i].type == HNUM || tokens[i].type == REG) 
 			continue;
 		if(tokens[i].type == '(') {
 			flag++;
