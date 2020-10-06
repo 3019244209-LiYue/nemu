@@ -38,7 +38,7 @@ static struct rule {
         {"/", '/'},                                     // divide
         {"\\(", '('},                                   
         {"\\)", ')'},                                   
-        {"^[1-9][0-9]*|0$", NUM},                       // integer
+        {"\\b[0-9]+\\b", NUM},                       // number
         {"\\|\\|", OR},                                 // or
         {"\\&\\&", AND},                                // and
 	{"!", NOT},					// not
