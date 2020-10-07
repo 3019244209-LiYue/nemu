@@ -192,7 +192,10 @@ int eval(int p, int q) {
 	}
 	else if(p == q) {
 		int val=0;
-		sscanf(tokens[p].str, "%d", &val);
+		if(tokens[p].type == NUM)
+			sscanf(tokens[p].str, "%d", &val);
+		else if(tokens[p].type == HNUM)
+			sscanf(tokens[p].str, "%x", &val);
 		return val;
 	}
 	else if(check_parentheses(p,q) == true) {
