@@ -8,7 +8,7 @@
 
 enum {
 	NOTYPE = 256, EQ = 255, NOTEQ = 254, NUM = 10, HNUM = 16, OR = 253, AND = 252,
-	NOT = 251, REG 
+	NOT = 251, REG = 250 
 
 	/* TODO: Add more token types */
 
@@ -105,6 +105,11 @@ static bool make_token(char *e) {
 					case '/':
 					case '(':
 					case ')':
+					case EQ:
+					case NOTEQ:
+					case AND:
+					case OR:
+					case NOT:
 					case HNUM:
 					case NUM:
 						tokens[nr_token].type = rules[i].token_type;
