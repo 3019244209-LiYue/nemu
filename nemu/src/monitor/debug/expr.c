@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ = 255, NOTEQ = 254, NUM , HNUM , OR = 253, AND = 252,
+	NOTYPE = 256, EQ = 255, NOTEQ = 254, NUM = 10, HNUM = 16, OR = 253, AND = 252,
 	NOT = 251, REG 
 
 	/* TODO: Add more token types */
@@ -105,6 +105,7 @@ static bool make_token(char *e) {
 					case '/':
 					case '(':
 					case ')':
+					case HNUM:
 					case NUM:
 						tokens[nr_token].type = rules[i].token_type;
 						strncpy(tokens[nr_token].str, substr_start, substr_len);
@@ -147,7 +148,7 @@ bool check_parentheses(int p, int q) {
 
 int pre(int x) {
 	if(x == NOTYPE )
-		return 1;
+		return 10;
 	else if(x == '*' || x == '/')
 		return 2;
 	else if(x == '+' || x == '-')
