@@ -37,7 +37,7 @@ static struct rule {
         {"\\|\\|", OR},                                 // or
         {"\\&\\&", AND},                                // and
 	{"!", NOT},					// not
-	{"\\$[a-dA-D][hlHL]|\\$[eE]?(ax|dx|cx|bx|bp|si|di|sp)", REG}	// register
+	{"\\$[a-dA-D][hlHL]|\\$[eE]?(ax|dx|cx|bx|bp|si|di|sp|AX|DX|CX|BX|BP|SI|DI|SP)", REG}	// register
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -147,13 +147,21 @@ bool check_parentheses(int p, int q) {
 }
 
 int pre(int x) {
-	if(x == NOTYPE )
-		return 10;
-	else if(x == '*' || x == '/')
+	if(x == '(' || x == ')')
+		return 1;
+	else if(x == '!')
 		return 2;
-	else if(x == '+' || x == '-')
+	else if(x == '*' || x == '/')
 		return 3;
-	return 0;
+	else if(x == '+' || x == '-')
+		return 4;
+	else if(x == EQ || x == NOTEQ)
+		return 5;
+	else if(x == AND)
+		return 6;
+	else if(x == OR)
+		return 7;
+	return 10;
 }
 
 int find_dominant_operator(int p, int q) {
@@ -185,19 +193,64 @@ int find_dominant_operator(int p, int q) {
 	return op;
 }
 
-int eval(int p, int q) {
+uint32_t eval(int p, int q) {
 	if(p > q) {
 		printf("Something wrong\n");
 		return 0;
 	}
 	else if(p == q) {
-		int val=0;
+		uint32_t val=0;
 		if(tokens[p].type == NUM)
 			sscanf(tokens[p].str, "%d", &val);
 		else if(tokens[p].type == HNUM)
 			sscanf(tokens[p].str, "%x", &val);
+		else if(tokens[p].type == REG) {
+			if(strlen(tokens[p].str) == 3) {
+				int i;
+				for(i=R_EAX;i<=R_EDI;i++)
+					if(strcmp(tokens[i].str, regsl[i]) == 0)
+						break;
+				if(i<=R_EDI)
+					val = reg_l(i);
+				else {
+					if(strcmp(tokens[i].str, "eip") == 0||strcmp(tokens[i].str,"EIP") == 0)
+						val = cpu.eip;
+					else {
+						printf("Invalid register\n");
+						assert(0);
+					}
+				}
+			}
+			else if(strlen(tokens[p].str) == 2) {
+				if(tokens[p].str[1] == 'h'||tokens[p].str[1] == 'H'||tokens[p].str[1] == 'l'||tokens[p].str[1] == 'L') {
+					int i;
+					for(i=R_AL;i<=R_BH;i++)
+						if(strcmp(tokens[i].str, regsb[i]) == 0)
+							break;
+					if(i<=R_BH)
+						val = reg_b(i);
+					else {
+						printf("Invalid register\n");
+						assert(0);
+					}
+				}
+				else if(tokens[p].str[1] == 'x'||tokens[p].str[1] == 'X'||tokens[p].str[1] == 'p'||tokens[p].str[1] == 'P'||tokens[p].str[1] == 'i'||tokens[p].str[1] == 'I') {
+					int i;
+					for(i=R_AX;i<=R_DI;i++)
+						if(strcmp(tokens[i].str, regsw[i]) == 0)
+							break;
+					if(i<=R_DI)
+						val = reg_w(i);
+					else {
+						printf("Invalid register\n");
+						assert(0);
+					}
+				}
+			}
+		}
 		return val;
 	}
+
 	else if(check_parentheses(p,q) == true) {
 		//printf("%d %d\n",p,q); 
 		return eval(p + 1, q - 1);
@@ -213,6 +266,10 @@ int eval(int p, int q) {
 			case '-': return val1 - val2;
 			case '*': return val1 * val2;
 			case '/': return val1 / val2;
+			case EQ: return val1 == val2;
+			case NOTEQ: return val1 != val2;
+			case AND: return val1 && val2;
+			case OR: return val1 || val2;
 			default: assert(0);
 		}
 	}
