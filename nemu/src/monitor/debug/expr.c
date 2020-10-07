@@ -33,7 +33,7 @@ static struct rule {
         {"\\(", '('},                                   
         {"\\)", ')'},                                   
         {"^[1-9][0-9]*|0$", NUM},                       // number
-	{"^0[xX][0-9a-fA-F]+$", HNUM},			// hex number
+	{"\\b0[xX][0-9a-fA-F]+\\b", HNUM},			// hex number
         {"\\|\\|", OR},                                 // or
         {"\\&\\&", AND},                                // and
 	{"!", NOT},					// not
