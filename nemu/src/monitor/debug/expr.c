@@ -258,8 +258,17 @@ uint32_t eval(int p, int q) {
 	else {
 		int op;
 		op = find_dominant_operator(p,q);
-		uint32_t val1 = eval(p, op - 1);
-		uint32_t val2 = eval(op + 1, q);
+
+		if(p == op||tokens[op].type == '!') {
+			uint32_t num = eval(p+1,q);
+			switch(tokens[p].type) {
+				case '!':return !num;
+				default: assert(0);
+			}
+		}
+		
+		uint32_t val1 = eval(p,op-1);
+		uint32_t val2 = eval(op+1,q);
 
 		switch(tokens[op].type) {
 			case '+': return val1 + val2;
