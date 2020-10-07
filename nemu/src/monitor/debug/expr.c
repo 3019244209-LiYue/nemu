@@ -35,7 +35,7 @@ static struct rule {
         {"^[1-9][0-9]*|0$", NUM},                       // number
 	{"\\b0[xX][0-9a-fA-F]+\\b", HNUM},			// hex number
         {"\\|\\|", OR},                                 // or
-        {"\\&\\&", AND},                                // and
+        {"&&", AND},                                // and
 	{"!", NOT},					// not
 	{"\\$[a-dA-D][hlHL]|\\$[eE]?(ax|dx|cx|bx|bp|si|di|sp|AX|DX|CX|BX|BP|SI|DI|SP)", REG}	// register
 };
