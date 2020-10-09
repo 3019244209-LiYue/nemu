@@ -37,7 +37,7 @@ static struct rule {
         {"\\|\\|", OR},                                 // or
         {"&&", AND},                                // and
 	{"!", NOT},					// not
-	{"\\$[a-dA-D][hlHL]|\\$[eE]?(ax|dx|cx|bx|bp|si|di|sp|AX|DX|CX|BX|BP|SI|DI|SP)", REG}	// register
+	{"\\$[a-dA-D][hlHL]|\\$[eE]?(ax|dx|cx|bx|bp|si|di|sp|ip|AX|DX|CX|BX|BP|SI|DI|SP|IP)", REG}	// register
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
