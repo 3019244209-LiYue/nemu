@@ -215,9 +215,7 @@ uint32_t eval(int p, int q) {
 				for(i=R_EAX;i<=R_EDI;i++)
 					if(strcmp(tokens[i].str, regsl[i]) == 0)
 						break;
-				if(i<=R_EDI)
-					val = reg_l(i);
-				else {
+				if(i>R_EDI) {
 					if(strcmp(tokens[i].str, "eip") == 0||strcmp(tokens[i].str,"EIP") == 0)
 						val = cpu.eip;
 					else {
@@ -225,6 +223,8 @@ uint32_t eval(int p, int q) {
 						assert(0);
 					}
 				}
+				else
+					val = reg_l(i);
 			}
 			else if(strlen(tokens[p].str) == 2) {
 				if(tokens[p].str[1] == 'h'||tokens[p].str[1] == 'H'||tokens[p].str[1] == 'l'||tokens[p].str[1] == 'L') {
@@ -232,24 +232,24 @@ uint32_t eval(int p, int q) {
 					for(i=R_AL;i<=R_BH;i++)
 						if(strcmp(tokens[i].str, regsb[i]) == 0)
 							break;
-					if(i<=R_BH)
-						val = reg_b(i);
-					else {
+					if(i>R_BH) {
 						printf("Invalid register\n");
 						assert(0);
 					}
+					else 
+						val = reg_b(i);
 				}
 				else if(tokens[p].str[1] == 'x'||tokens[p].str[1] == 'X'||tokens[p].str[1] == 'p'||tokens[p].str[1] == 'P'||tokens[p].str[1] == 'i'||tokens[p].str[1] == 'I') {
 					int i;
 					for(i=R_AX;i<=R_DI;i++)
 						if(strcmp(tokens[i].str, regsw[i]) == 0)
 							break;
-					if(i<=R_DI)
-						val = reg_w(i);
-					else {
+					if(i>R_DI) {
 						printf("Invalid register\n");
 						assert(0);
 					}
+					else
+						val = reg_w(i);
 				}
 			}
 		}
