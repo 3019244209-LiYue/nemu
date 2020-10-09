@@ -33,7 +33,7 @@ static struct rule {
         {"\\(", '('},                                   
         {"\\)", ')'},                                   
         {"^[1-9][0-9]*|0$", NUM},                       // number
-	{"\\b0[xX][0-9a-fA-F]+\\b", HNUM},			// hex number
+	{"\\b0[xX][0-9a-fA-F]+\\b", HNUM},		// hex number
         {"\\|\\|", OR},                                 // or
         {"&&", AND},                                // and
 	{"!", NOT},					// not
@@ -85,6 +85,7 @@ static bool make_token(char *e) {
 
 				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
+
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
 				 * to record the token in the array `tokens'. For certain types
 				 * of tokens, some extra actions should be performed.
