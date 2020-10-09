@@ -62,6 +62,8 @@ static int cmd_info(char *args) {
                for(k=0;k<8;k++)
                       printf("%s 0x%x %d\n",regsb[k],reg_b(k),reg_b(k));
         }
+	else if(strcmp(arg,"w") == 0) 
+		info_wp();
         return 0;
 }
 
@@ -100,6 +102,7 @@ static int cmd_p(char *args) {
 	}
 	return 0;
 }
+
 static int cmd_w(char *args) {
 	WP *f;
 	bool success;
@@ -110,6 +113,13 @@ static int cmd_w(char *args) {
 	if(!success)
 		Assert(1,"wrong\n");
 	printf("value: %d\n",f->val);
+	return 0;
+}
+
+static int cmd_d(char *args) {
+	int num;
+	sscanf(args,"%d",&num);
+	delete_wp(num);
 	return 0;
 }
 
@@ -128,6 +138,7 @@ static struct {
         { "x", "Scan the memory", cmd_x },
 	{ "p", "Calculate the expression", cmd_p },
 	{ "w", "Set watchpoints", cmd_w },
+	{ "d", "Delete watchpoints", cmd_d },
 	/* TODO: Add more commands */
 
 };
