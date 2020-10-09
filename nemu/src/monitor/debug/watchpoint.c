@@ -35,7 +35,7 @@ WP* new_wp() {
 		h = head;
 	}
 	else {
-		while(h != NULL) 
+		while(h->next != NULL) 
 			h = h->next;
 		h->next = f;
 	}
@@ -50,7 +50,7 @@ void free_wp(WP *wp) {
 		f = free_;
 	}
 	else {
-		while(f != NULL)
+		while(f->next != NULL)
 			f = f->next;
 		f->next = wp;
 	}
@@ -92,6 +92,7 @@ bool check_wp() {
 				h = h->next;
 				continue;
 			}
+			h->val = value;
 		}
 		h = h->next;
 	}
@@ -103,7 +104,7 @@ void info_wp() {
 	h = head;
 	while(h != NULL) {
 		printf("watchpoint%d: %s = %d\n",h->NO, h->expr, h->val);
-		h= h->next;
+		h = h->next;
 	}
 }
 
