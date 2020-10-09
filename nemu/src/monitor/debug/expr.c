@@ -207,16 +207,16 @@ uint32_t eval(int p, int q) {
 		uint32_t val=0;
 		if(tokens[p].type == NUM)
 			sscanf(tokens[p].str, "%d", &val);
-		else if(tokens[p].type == HNUM)
+		if(tokens[p].type == HNUM)
 			sscanf(tokens[p].str, "%x", &val);
-		else if(tokens[p].type == REG) {
+		if(tokens[p].type == REG) {
 			if(strlen(tokens[p].str) == 3) {
 				int i;
 				for(i=R_EAX;i<=R_EDI;i++)
-					if(strcmp(tokens[i].str, regsl[i]) == 0)
+					if(strcmp(tokens[p].str, regsl[i]) == 0)
 						break;
 				if(i>R_EDI) {
-					if(strcmp(tokens[i].str, "eip") == 0||strcmp(tokens[i].str,"EIP") == 0)
+					if(strcmp(tokens[p].str, "eip") == 0||strcmp(tokens[p].str,"EIP") == 0)
 						val = cpu.eip;
 					else {
 						printf("Invalid register\n");
@@ -230,7 +230,7 @@ uint32_t eval(int p, int q) {
 				if(tokens[p].str[1] == 'h'||tokens[p].str[1] == 'H'||tokens[p].str[1] == 'l'||tokens[p].str[1] == 'L') {
 					int i;
 					for(i=R_AL;i<=R_BH;i++)
-						if(strcmp(tokens[i].str, regsb[i]) == 0)
+						if(strcmp(tokens[p].str, regsb[i]) == 0)
 							break;
 					if(i>R_BH) {
 						printf("Invalid register\n");
@@ -242,7 +242,7 @@ uint32_t eval(int p, int q) {
 				else if(tokens[p].str[1] == 'x'||tokens[p].str[1] == 'X'||tokens[p].str[1] == 'p'||tokens[p].str[1] == 'P'||tokens[p].str[1] == 'i'||tokens[p].str[1] == 'I') {
 					int i;
 					for(i=R_AX;i<=R_DI;i++)
-						if(strcmp(tokens[i].str, regsw[i]) == 0)
+						if(strcmp(tokens[p].str, regsw[i]) == 0)
 							break;
 					if(i>R_DI) {
 						printf("Invalid register\n");
