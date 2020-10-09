@@ -23,7 +23,7 @@ static struct rule {
 	 * Pay attention to the precedence level of different rules.
 	 */
 
-	{" +", NOTYPE},				// spaces
+	{" +",  NOTYPE},				// spaces
 	{"\\+", '+'},					// plus
 	{"==", EQ},					// equal
         {"!=", NOTEQ},                                  // not equal
@@ -91,8 +91,6 @@ static bool make_token(char *e) {
 				 */
 
 				switch(rules[i].token_type) {
-					case NOTYPE:
-						break;
 					case REG:
 						tokens[nr_token].type = rules[i].token_type;
 						strncpy(tokens[nr_token].str, substr_start + 1, substr_len - 1);
@@ -117,6 +115,8 @@ static bool make_token(char *e) {
 						tokens[nr_token].str[substr_len] = '\0';
 						nr_token++;
 						break;
+					case NOTYPE:
+						break;
 					default: panic("please implement me");
 				}
 
@@ -129,7 +129,6 @@ static bool make_token(char *e) {
 			return false;
 		}
 	}
-
 	return true; 
 }
 
