@@ -101,7 +101,19 @@ static int cmd_p(char *args) {
 	}
 	return 0;
 }
-	
+static int cmd_w(char *args) {
+	WP *f;
+	bool success;
+	f = new_wp();
+	printf("Watchpoint %d: %s\n", f->NO, args);
+	f->val = expr(args,&success);
+	strcpy(f->expr,args);
+	if(!success)
+		Assert(1,"wrong\n");
+	printf("value: %d\n",f->val);
+	return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -116,6 +128,7 @@ static struct {
         { "info", "Print the status of the registers and the information of watching points", cmd_info },
         { "x", "Scan the memory", cmd_x },
 	{ "p", "Calculate the expression", cmd_p },
+	{ "w", "Set watchpoints", cmd_w },
 	/* TODO: Add more commands */
 
 };

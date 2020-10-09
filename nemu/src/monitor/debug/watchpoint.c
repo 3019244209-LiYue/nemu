@@ -75,3 +75,25 @@ void free_wp(WP *wp) {
 	wp->val = 0;
 	wp->expr[0] = '\0';
 }
+
+bool check_wp() {
+	WP *h;
+	h = head;
+	bool flag = true;
+	bool success;
+	while(h != NULL) {
+		uint32_t value = expr(h->expr,&success);
+		if(!success)
+			assert(0);
+		if(value != h->val) {
+			flag = false;
+			if(h->tag) {
+				printf("Hit watchpoint %d\n", h->tag);
+				h = h->next;
+				continue;
+			}
+		}
+		h = h->next;
+	}
+	return flag;
+}
