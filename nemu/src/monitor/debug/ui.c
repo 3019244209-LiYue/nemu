@@ -55,8 +55,8 @@ static int cmd_info(char *args) {
                printf("Please input 'info r' or 'info w'");
         else if(strcmp(arg,"r") == 0) {
                int i;
-               for(i=0;i<8;i++)
-                      printf("%s 0x%x %d\n",regsl[i],reg_l(i),reg_l(i));
+               for(i=R_EAX;i<=R_EDI;i++)
+                      printf("%s 0x%08x %d\n",regsl[i],reg_l(i),reg_l(i));
         }
 	else if(strcmp(arg,"w") == 0) 
 		info_wp();
