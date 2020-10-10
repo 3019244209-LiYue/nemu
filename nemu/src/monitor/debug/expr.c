@@ -8,7 +8,7 @@
 
 enum {
 	NOTYPE = 256, EQ = 255, NOTEQ = 254, NUM = 10, HNUM = 16, OR = 253, AND = 252,
-	NOT = 251, REG = 250 
+	NOT = 251, REG = 250, MINUS 
 
 	/* TODO: Add more token types */
 
@@ -27,7 +27,7 @@ static struct rule {
 	{"\\+", '+'},					// plus
 	{"==", EQ},					// equal
         {"!=", NOTEQ},                                  // not equal
-        {"-", '-'},                                     // minus
+        {"-", '-'},                                     // subtraction
         {"\\*", '*'},                                   // multiply
         {"/", '/'},                                     // divide
         {"\\(", '('},                                   
@@ -154,7 +154,7 @@ bool check_parentheses(int p, int q) {
 int pre(int x) {
 	if(x == '(' || x == ')')
 		return 1;
-	else if(x == '!')
+	else if(x == '!' || x == MINUS)
 		return 2;
 	else if(x == '*' || x == '/')
 		return 3;
@@ -264,9 +264,10 @@ uint32_t eval(int p, int q) {
 		int op;
 		op = find_dominant_operator(p,q);
 
-		if(p == op||tokens[op].type == '!') {
+		if(p == op||tokens[op].type == '!'||tokens[op].type == MINUS) {
 			uint32_t num = eval(p+1,q);
 			switch(tokens[p].type) {
+				case MINUS:return -num;
 				case '!':return !num;
 				default: assert(0);
 			}
@@ -298,6 +299,11 @@ uint32_t expr(char *e, bool *success) {
 	/* TODO: Insert codes to evaluate the expression. */
 
 	else {
+		int i;
+		for(i=0;i<nr_token;i++) {
+			if(tokens[i].type == '-' && (i == 0 || (tokens[i-1].type != NUM && tokens[i-1].type != HNUM && tokens[i-1].type != REG && tokens[i].type != ')'))) 
+				tokens[i].type = MINUS;
+		}
 		*success = true;
 		int val = eval(0,nr_token-1);
 		return val;
