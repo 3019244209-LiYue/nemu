@@ -67,16 +67,18 @@ static int cmd_x(char *args) {
 	if(args == NULL)
 		printf("Please input 'x N EXPR'");
 	else {
-		char *arg1 = strtok(NULL, " ");
-		char *arg2 = strtok(NULL, " ");
-		int i,len;
+		int i,n;
 		swaddr_t addr;
-		len = atoi(arg1);
-		sscanf(arg2,"%x", &addr);
-
-		printf("0x%x:", addr);
-		for(i=0;i<len;i++) {
-			printf("0x%x ",swaddr_read(addr,4));
+		bool success;
+		char *arg = strtok(args, " ");
+		sscanf(arg,"%d", &n);
+		args = arg + strlen(arg) + 1;
+		addr = expr(args,&success);
+		if(!success)
+			assert(1);
+		printf("0x%08x:", addr);
+		for(i=0;i<=n;i++) {
+			printf("0x%08x ",swaddr_read(addr,4));
 			 addr+=4;
 		}
 	}
