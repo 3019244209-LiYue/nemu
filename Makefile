@@ -52,7 +52,6 @@ clean: clean-cpp
 
 
 ##### some convinient rules #####
-
 USERPROG := obj/testcase/mov
 ENTRY := $(USERPROG)
 
