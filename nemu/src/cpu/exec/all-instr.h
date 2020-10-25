@@ -9,6 +9,7 @@
 #include "data-mov/push.h"
 #include "data-mov/je.h"
 #include "data-mov/pop.h"
+#include "data-mov/ret.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
