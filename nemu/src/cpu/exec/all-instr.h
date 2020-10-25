@@ -8,6 +8,7 @@
 #include "data-mov/call.h"
 #include "data-mov/push.h"
 #include "data-mov/je.h"
+#include "data-mov/pop.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
