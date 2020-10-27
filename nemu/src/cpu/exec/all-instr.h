@@ -10,6 +10,7 @@
 #include "data-mov/je.h"
 #include "data-mov/pop.h"
 #include "data-mov/ret.h"
+#include "data-mov/jmp.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
