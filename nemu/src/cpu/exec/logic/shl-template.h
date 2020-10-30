@@ -13,7 +13,7 @@ static void do_execute () {
 	/* TODO: Update EFLAGS. */
 	panic("please implement me");
 
-	print_asm_template2();
+	//print_asm_template2();
 }
 
 make_instr_helper(rm_1)
