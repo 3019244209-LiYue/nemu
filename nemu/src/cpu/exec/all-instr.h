@@ -11,7 +11,7 @@
 #include "data-mov/pop.h"
 #include "data-mov/ret.h"
 #include "data-mov/jmp.h"
-#include "data-mov/jbe.h"
+#include "data-mov/jcc.h"
 #include "data-mov/in.h"
 
 #include "arith/dec.h"
