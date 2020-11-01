@@ -9,7 +9,7 @@ static void do_execute() {
 		if(cpu.DF == 0)
 			reg_w(R_SI) += DATA_BYTE;
 		else
-			reg_w(R_SI) += DATA_BYTE;
+			reg_w(R_SI) -= DATA_BYTE;
 	}
 	else
 	{
@@ -17,7 +17,7 @@ static void do_execute() {
 		if(cpu.DF == 0)
 			reg_l(R_ESI) += DATA_BYTE;
 		else
-			reg_l(R_ESI) += DATA_BYTE;
+			reg_l(R_ESI) -= DATA_BYTE;
 	}
 	print_asm("stos");
 }
