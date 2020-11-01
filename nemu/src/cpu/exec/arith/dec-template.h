@@ -5,7 +5,7 @@
 static void do_execute () {
 	DATA_TYPE result = op_src->val - 1;
 	int len = (DATA_BYTE << 3) - 1;
-	cpu.CF = op_src->val < 1;
+	cpu.CF = (op_src->val < 1);
 	cpu.SF=result >> len;
 	int s1,s2;
 	s1=op_src->val>>len;
