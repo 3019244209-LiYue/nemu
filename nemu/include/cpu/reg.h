@@ -29,7 +29,9 @@ typedef struct {
 		union{
 			struct{
 				uint32_t CF:	1;
+				uint32_t :	1;
 				uint32_t PF:	1;
+				uint32_t :	1;
 				uint32_t ZF:	1;
 				uint32_t SF:	1;
 				uint32_t IF:	1;
