@@ -58,6 +58,7 @@ static int concat(decode_a_, SUFFIX) (swaddr_t eip, Operand *op) {
 /* eXX: eAX, eCX, eDX, eBX, eSP, eBP, eSI, eDI */
 static int concat3(decode_r_, SUFFIX, _internal) (swaddr_t eip, Operand *op) {
 	op->type = OP_TYPE_REG;
+	op->size = DATA_BYTE;
 	op->reg = ops_decoded.opcode & 0x7;
 	op->val = REG(op->reg);
 
