@@ -19,7 +19,7 @@ static void do_execute() {
 		else
 			reg_l(R_ESI) -= DATA_BYTE;
 	}
-	print_asm("stos");
+	print_asm("lods");
 }
 
 make_instr_helper(r)
