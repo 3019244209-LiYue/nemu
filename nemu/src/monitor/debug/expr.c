@@ -198,7 +198,6 @@ static uint32_t eval(int s, int e, bool *success) {
 			default: assert(0);
 		}
 
-		*success = true;
 		return val;
 	}
 	else if(tokens[s].type == '(' && tokens[e].type == ')') {
