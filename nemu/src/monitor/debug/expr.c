@@ -183,7 +183,7 @@ static uint32_t eval(int s, int e, bool *success) {
 	}
 	else if(s == e) {
 		// single token
-		uint32_t val;
+		uint32_t val = 0;
 		switch(tokens[s].type) {
 			case REG: val = get_reg_val(tokens[s].str + 1, success);	// +1 to skip '$'
 					  if(!*success) { return 0; }
