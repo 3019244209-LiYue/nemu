@@ -6,12 +6,12 @@
 #include <sys/types.h>
 #include <regex.h>
 #include <stdlib.h>
-
+#include <elf.h>
 enum {
 	NOTYPE = 256, EQ
 
 	/* TODO: Add more token types */
-        , NUM, NEQ, OR, AND, REG, REF, NEG
+        , NUM, NEQ, OR, AND, REG, REF, NEG, MARK
 };
 
 static struct rule {
@@ -38,10 +38,13 @@ static struct rule {
 	{"\\|\\|", OR},
 	{"!", '!'},
 	{"\\(", '('},
-	{"\\)", ')'} 
+	{"\\)", ')'},
+	{"\\b[a-zA-Z_0-9]+", MARK},
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
+
+uint32_t GetMarkValue(char *str, bool *success);
 
 static regex_t re[NR_REGEX];
 
@@ -188,6 +191,10 @@ static uint32_t eval(int s, int e, bool *success) {
 
 			case NUM: val = strtol(tokens[s].str, NULL, 0); break;
 
+			case MARK:{
+				val = GetMarkValue(tokens[s].str, success);
+				if(*success == false) return 0; 
+			}	
 			default: assert(0);
 		}
 
