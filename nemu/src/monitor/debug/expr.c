@@ -123,7 +123,7 @@ static bool make_token(char *e) {
 
 static int op_prec(int t) {
 	switch(t) {
-		case '!': case NEG: case REF: return 0;
+		case '!': case NEG: case REF: case MARK: return 0;
 		case '*': case '/': case '%': return 1;
 		case '+': case '-': return 2;
 		case EQ: case NEQ: return 4;
@@ -143,7 +143,7 @@ static int find_dominated_op(int s, int e, bool *success) {
 	int dominated_op = -1;
 	for(i = s; i <= e; i ++) {
 		switch(tokens[i].type) {
-			case REG: case NUM: break;
+			case REG: case NUM: case MARK: break;
 
 			case '(': 
 				bracket_level ++; 
