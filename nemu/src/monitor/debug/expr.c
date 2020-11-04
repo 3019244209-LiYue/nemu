@@ -39,7 +39,7 @@ static struct rule {
 	{"!", '!'},
 	{"\\(", '('},
 	{"\\)", ')'},
-	{"\\b[a-zA-Z_0-9]+", MARK},
+	{"\\b[a-zA-Z0-9_]+\\b", MARK},
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -101,6 +101,8 @@ static bool make_token(char *e) {
 					//default: panic("please implement me");
                                         case REG: sprintf(tokens[nr_token].str, "%.*s", substr_len, substr_start);
 					default: tokens[nr_token].type = rules[i].token_type;
+						 strncpy(tokens[nr_token].str, substr_start, substr_len);
+						 tokens[nr_token].str[substr_len] = '\0';
 							 nr_token ++;
 				}
 
@@ -198,6 +200,7 @@ static uint32_t eval(int s, int e, bool *success) {
 			default: assert(0);
 		}
 
+		*success = true;
 		return val;
 	}
 	else if(tokens[s].type == '(' && tokens[e].type == ')') {
