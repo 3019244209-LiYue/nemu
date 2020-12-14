@@ -1,5 +1,6 @@
 #include "cpu/decode/modrm.h"
 #include "cpu/helper.h"
+extern uint8_t current_sreg;
 
 int load_addr(swaddr_t eip, ModR_M *m, Operand *rm) {
 	assert(m->mod != 3);
