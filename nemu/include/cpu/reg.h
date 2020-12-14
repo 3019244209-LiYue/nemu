@@ -80,7 +80,7 @@ typedef struct {
 } CPU_state;
 
 extern CPU_state cpu;
-
+uint8_t current_sreg;
 static inline int check_reg_index(int index) {
 	assert(index >= 0 && index < 8);
 	return index;
