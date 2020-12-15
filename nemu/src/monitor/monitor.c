@@ -80,6 +80,11 @@ static void init_cr0(){
 	cpu.cr0.paging = 0;
 }
 
+static void init_CS(){
+	cpu.cs.base = 0;
+	cpu.cs.limit = 0xffffffff;
+}
+
 void restart() {
 	/* Perform some initialization to restart a program */
 #ifdef USE_RAMDISK
@@ -102,4 +107,7 @@ void restart() {
 	
 	/*Initialize CR0. */
 	init_cr0();
+
+	/*Initialize CS. */
+	init_CS();
 }
