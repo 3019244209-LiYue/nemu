@@ -215,7 +215,7 @@ static uint32_t eval(int s, int e, bool *success) {
 			switch(op_type) {
 				case '!': return !val;
 				case NEG: return -val;
-				case REF: return swaddr_read(val, 4);
+				case REF: current_sreg = R_DS;return swaddr_read(val, 4);
 				default: assert(0);
 			}
 		}
