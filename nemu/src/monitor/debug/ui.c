@@ -61,6 +61,7 @@ static int cmd_x(char *args) {
 	int n;
 	swaddr_t addr;
 	int i;
+	current_sreg = R_DS;
 
 	if(arg != NULL) {
 		sscanf(arg, "%d", &n);
@@ -122,6 +123,7 @@ static int cmd_d(char *args) {
 
 /* Add display backtrace */
 static int cmd_bt(char *args) {
+	current_sreg = R_SS;
 	const char* find_fun_name(uint32_t eip);
 	struct {
 		swaddr_t prev_ebp;
