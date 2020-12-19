@@ -77,6 +77,8 @@ typedef struct {
 		};
 	};
 
+	CR3 cr3;
+
 } CPU_state;
 
 typedef struct{
