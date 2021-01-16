@@ -6,7 +6,9 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-
+#include <elf.h>
+#include "memory.h"
+#define TestCorrect(x) if(x){printf("Invalid Command!\n");return 0;}
 void cpu_exec(uint32_t);
 void display_reg();
 
@@ -148,6 +150,17 @@ static int cmd_bt(char *args) {
 	return 0;
 }
 
+static int cmd_page(char *args){
+	TestCorrect(args == NULL);
+	uint32_t addr;
+	sscanf(args, "%x", &addr);
+	int flag = 0;
+	uint32_t real_addr = page_translate_additional(addr,&flag);
+	if(flag == 0) printf("0x%08x\n",real_addr);
+	else if(flag == 1) printf("Dir cannot be !\n");
+	else printf("Page cannot be used!\n");
+	return 0;
+}
 
 static int cmd_c(char *args) {
 	cpu_exec(-1);
@@ -176,8 +189,8 @@ static struct {
         { "p", "Evaluate the value of expression", cmd_p },
 	{ "w", "Set watchpoint", cmd_w },
 	{ "d", "Delete watchpoint", cmd_d },
-	{ "bt", "Display backtrace", cmd_bt }
-
+	{ "bt", "Display backtrace", cmd_bt },
+	{ "page", "Translate ADDR in PAGE MODE", cmd_page }
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
