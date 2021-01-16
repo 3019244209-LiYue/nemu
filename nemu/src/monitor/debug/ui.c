@@ -12,6 +12,8 @@
 void cpu_exec(uint32_t);
 void display_reg();
 
+hwaddr_t page_translate(lnaddr_t addr);
+hwaddr_t page_translate_additional(lnaddr_t addr, int* flag);
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
 	static char *line_read = NULL;
